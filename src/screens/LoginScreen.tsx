@@ -1,0 +1,25 @@
+import React, { useState } from 'react';
+import { View, TextInput, Button } from 'react-native';
+import { supabase } from '../api/supabase';
+
+export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signIn = async () => {
+    await supabase.auth.signInWithPassword({ email, password });
+  };
+
+  const signUp = async () => {
+    await supabase.auth.signUp({ email, password });
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <TextInput placeholder="Email" onChangeText={setEmail} />
+      <TextInput placeholder="Password" secureTextEntry onChangeText={setPassword} />
+      <Button title="Login" onPress={signIn} />
+      <Button title="Sign Up" onPress={signUp} />
+    </View>
+  );
+}
