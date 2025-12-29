@@ -1,74 +1,78 @@
-# OSX
-#
-.DS_Store
-
-# Xcode
-#
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-**/.xcode.env.local
-
-# Android/IntelliJ
-#
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
-.cxx/
-*.keystore
-!debug.keystore
-
-# node.js
-#
+# =========================
+# General
+# =========================
 node_modules/
-npm-debug.log
-yarn-error.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
 
-**/fastlane/report.xml
-**/fastlane/Preview.html
-**/fastlane/screenshots
-**/fastlane/test_output
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+!.env.example
 
-# Bundle artifact
-*.jsbundle
+# =========================
+# React Native
+# =========================
+android/.gradle
+android/.idea
+android/build
+android/app/build
+android/app/debug.keystore
 
-# Ruby / CocoaPods
-**/Pods/
-/vendor/bundle/
+ios/Pods
+ios/build
+ios/DerivedData
+ios/*.xcworkspace
+ios/*.xcodeproj/project.xcworkspace
+ios/.idea
+ios/.DS_Store
 
-# Temporary files created by Metro to check the health of the file watcher
-.metro-health-check*
+# =========================
+# Metro / Cache
+# =========================
+.metro-cache
+.cache
+.expo
+.expo-shared
 
-# testing
-/coverage
+# =========================
+# IDEs
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
-# Yarn
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.idea
+*.iml
+
+# =========================
+# Testing
+# =========================
+coverage/
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Temporary files
+# =========================
+*.swp
+*.swo
+
+# =========================
+# APK / AAB Outputs
+# =========================
+*.apk
+*.aab
