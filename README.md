@@ -26,6 +26,14 @@ The goal of this project was to demonstrate real-world fundamentals such as auth
 
 * **Search notes by title** (client-side search)
 
+## Assumptions & Trade-offs
+
+- Client-side search was implemented instead of offline handling to keep the scope focused and simple
+- A clean and minimal UI was preferred over heavy styling
+- Debug/Release APK is provided for easy installation and testing
+- Notes table name is `notess` as configured in Supabase
+
+
 ---
 
 ## Tech Stack
@@ -89,3 +97,16 @@ This guarantees that notes are never shared across users.
 * Logout action is placed in the header for better UX
 
 The UI is intentionally kept simple and functional rather than overly styled.
+
+## Project Setup
+
+### Prerequisites
+- Node.js
+- Android Studio / Android SDK
+- React Native CLI environment
+
+### Installation
+git clone https://github.com/KrishnaGunjal/NotesApp.git
+cd NotesApp
+npm install
+
