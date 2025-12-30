@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 4,
     textAlign: 'center',
+    color: '#333',
   },
   subtitle: {
     fontSize: 14,
