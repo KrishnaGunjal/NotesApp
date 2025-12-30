@@ -11,7 +11,7 @@ export default function AppStack() {
       <Stack.Screen
         name="AddNotes"
         component={AddNoteScreen}
-        options={{ title: 'Add Notes' }}
+        options={{ title: 'Notes' }}
       />
     </Stack.Navigator>
   )

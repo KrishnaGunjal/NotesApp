@@ -103,7 +103,6 @@ export default function AddNoteScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>My Notes</Text>
 
       <TextInput
         placeholder="Search notes by title..."
