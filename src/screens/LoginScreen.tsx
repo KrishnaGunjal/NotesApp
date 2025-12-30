@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: 12,
     fontSize: 16,
+    color: '#333',
   },
   primaryButton: {
     backgroundColor: '#4F46E5',

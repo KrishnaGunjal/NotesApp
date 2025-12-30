@@ -1,13 +1,18 @@
-import React, { useEffect, useState, useContext, useLayoutEffect } from 'react';
-import { AuthContext } from '../auth/AuthContext';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useLayoutEffect,
+} from 'react';
 import {
   View,
   Text,
   FlatList,
-  Button,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
+import { AuthContext } from '../auth/AuthContext';
 import { supabase } from '../api/supabase';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +29,7 @@ export default function AddNoteScreen() {
   const [content, setContent] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchText, setSearchText] = useState('');
+
   const auth = useContext(AuthContext);
   const session = auth?.session;
   const navigation = useNavigation();
@@ -35,26 +41,23 @@ export default function AddNoteScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity
-          onPress={logout}
-          style={{ marginRight: 12 }}
-        >
-          <MaterialIcons name="logout" size={24} color="#000" />
+        <TouchableOpacity style={styles.logoutButton} onPress={logout}>
+          <MaterialIcons name="logout" size={24} color="#000000" />
         </TouchableOpacity>
       ),
     });
   }, [navigation]);
 
-    const fetchNotes = async () => {
+  const fetchNotes = async () => {
     const { data, error } = await supabase
-        .from('notess')
-        .select('*')
-        .order('created_at', { ascending: false });
+      .from('notess')
+      .select('*')
+      .order('created_at', { ascending: false });
 
     if (!error && data) {
-        setNotes(data);
+      setNotes(data);
     }
-    };
+  };
 
   const saveNote = async () => {
     const user = (await supabase.auth.getUser()).data.user;
@@ -98,63 +101,55 @@ export default function AddNoteScreen() {
     note.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
-
   return (
-    <View style={{ padding: 16 }}>
-      <Text style={{ fontSize: 22, marginBottom: 8 }}>My Notes</Text>
+    <View style={styles.container}>
+      <Text style={styles.heading}>My Notes</Text>
+
       <TextInput
         placeholder="Search notes by title..."
+        placeholderTextColor="#666666"
         value={searchText}
         onChangeText={setSearchText}
-        style={{
-          borderWidth: 1,
-          marginBottom: 12,
-          padding: 8,
-          borderRadius: 4,
-        }}
+        style={styles.input}
       />
 
       <TextInput
         placeholder="Title"
+        placeholderTextColor="#666666"
         value={title}
         onChangeText={setTitle}
-        style={{ borderWidth: 1, marginBottom: 8, padding: 8 }}
+        style={styles.input}
       />
 
       <TextInput
         placeholder="Content"
+        placeholderTextColor="#666666"
         value={content}
         onChangeText={setContent}
-        style={{ borderWidth: 1, marginBottom: 8, padding: 8 }}
+        style={styles.input}
       />
 
-      <Button
-        title={editingId ? 'Update Note' : 'Add Note'}
-        onPress={saveNote}
-      />
+      <TouchableOpacity style={styles.primaryButton} onPress={saveNote}>
+        <Text style={styles.primaryButtonText}>
+          {editingId ? 'Update Note' : 'Add Note'}
+        </Text>
+      </TouchableOpacity>
 
       <FlatList
-        data={filteredNotes ?? notes}
+        data={filteredNotes}
         keyExtractor={item => item.id}
-        style={{ marginTop: 16 }}
+        contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <View
-            style={{
-              padding: 12,
-              borderWidth: 1,
-              marginBottom: 8,
-            }}
-          >
-            <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
-            <Text>{item.content}</Text>
+          <View style={styles.noteCard}>
+            <Text style={styles.noteTitle}>{item.title}</Text>
+            <Text style={styles.noteContent}>{item.content}</Text>
 
-            <View style={{ flexDirection: 'row', marginTop: 8 }}>
+            <View style={styles.actions}>
               <TouchableOpacity onPress={() => editNote(item)}>
-                <Text style={{ marginRight: 16, color: 'blue' }}>Edit</Text>
+                <Text style={styles.edit}>Edit</Text>
               </TouchableOpacity>
-
               <TouchableOpacity onPress={() => deleteNote(item.id)}>
-                <Text style={{ color: 'red' }}>Delete</Text>
+                <Text style={styles.delete}>Delete</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -163,3 +158,76 @@ export default function AddNoteScreen() {
     </View>
   );
 }
+
+/* ---------- Styles ---------- */
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  heading: {
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 12,
+    color: '#000000',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 10,
+    color: '#000000',
+  },
+  primaryButton: {
+    backgroundColor: '#2563EB',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  primaryButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  list: {
+    paddingBottom: 16,
+  },
+  noteCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+  },
+  noteTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000000',
+    marginBottom: 4,
+  },
+  noteContent: {
+    fontSize: 14,
+    color: '#333333',
+  },
+  actions: {
+    flexDirection: 'row',
+    marginTop: 8,
+  },
+  edit: {
+    marginRight: 16,
+    color: '#2563EB',
+    fontWeight: '600',
+  },
+  delete: {
+    color: '#DC2626',
+    fontWeight: '600',
+  },
+  logoutButton: {
+    marginRight: 12,
+  },
+});
